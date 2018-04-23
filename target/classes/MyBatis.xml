@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+      <!--HikariDataSource:另外一款高性能的 JDBC 连接池-->
+	<!-- <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<property name="jdbcUrl" value="jdbc:mysql://sh.dbtest1.r.qiyi.db:8663/dwtvgame?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="dwtvgame" />
+		<property name="password" value="3nrwkhte" />
+ 	</bean> -->
+
+ 	<!-- 1. 数据源 : DriverManagerDataSource -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/*"/>
+        <property name="username" value="*"/>
+        <property name="password" value="*"/>
+    </bean>
+
+    <!--
+        2. mybatis的SqlSession的工厂: SqlSessionFactoryBean
+    -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!--
+        3. mybatis自动扫描加载Sql映射文件 : MapperScannerConfigurer
+    -->
+	<bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="basePackage" value="com.*.*.mapper" />
+	</bean>
+	
+	<!-- 4. 事务管理 : DataSourceTransactionManager -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+ 	<!-- 5. 使用声明式事务 -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+</beans>
