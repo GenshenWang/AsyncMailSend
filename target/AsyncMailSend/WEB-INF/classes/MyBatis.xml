@@ -7,13 +7,6 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-      <!--HikariDataSource:另外一款高性能的 JDBC 连接池-->
-	<!-- <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-		<property name="jdbcUrl" value="jdbc:mysql://sh.dbtest1.r.qiyi.db:8663/dwtvgame?useUnicode=true&amp;characterEncoding=UTF-8" />
-		<property name="username" value="dwtvgame" />
-		<property name="password" value="3nrwkhte" />
- 	</bean> -->
-
  	<!-- 1. 数据源 : DriverManagerDataSource -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
